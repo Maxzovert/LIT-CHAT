@@ -1,3 +1,4 @@
+import cloudinary from "../lib/cloudinary.js";
 import { generateToken } from "../lib/utils.js";
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs"
@@ -91,5 +92,21 @@ export const logout = (req, res) => {
 
 //Update Profile
 export const updateProfile = async (req , res) => {
-  
+  try {
+    const {profilePic} = req.body;
+    // We can have user id here now because it is protected with middleware
+    const userId = req.user_id
+    if(!profilePic){
+      return res.status(400).json({message : "Profile pic is required"})
+    }
+    const uploadRespose = await cloudinary.uploader.upload(profilePic)
+    //COludirany will give back this after uploading response
+    const UpdateUser = await User.findByIdAndUpdate(userId , {profilePic : uploadRespose.secure_url} , {new : true})
+    //{new : true} give you the object after update was applied.
+    
+    res.status(200).json(UpdateUser)
+  } catch (error) {
+    console.log("Error is Update profile controller", error.message);
+    return res.status(500).json({message : "Internal server error"})
+  }
 }
