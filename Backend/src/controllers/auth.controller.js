@@ -40,26 +40,27 @@ export const signup = async (req, res) => {
             profilePic : newUser.profilePic
           })
         }else{
-          res.status(400).json({message : "Invalid credential"})
+          return res.status(400).json({message : "Invalid credential"})
         }
     } catch (error) {
       console.log("Error is signUp controller", error.message);
       return res.status(500).json({message : "Internal server error"})
     }
-  }
+  };
 
+//Login 
 export const login = async (req, res) => {
-  const {email , password} = res.body;
+  const {email , password} = req.body;
     try {
       const user = await User.findOne({email})
 
       if (!user) {
-        res.status(400).json({message : "Invalid Credential"})
+        return res.status(400).json({message : "Invalid Credential"})
       }
 
       const isPassCorrest = await bcrypt.compare(password, user.password)
       if (!isPassCorrest) {
-        res.status(400).json({message : "Invalid Credential"})
+        return res.status(400).json({message : "Invalid Credential"})
       }
 
       generateToken(user._id,res)
@@ -71,12 +72,24 @@ export const login = async (req, res) => {
         profilePic : user.profilePic
       })
     } catch (error) {
-      console.log("Error is signUp controller", error.message);
+      console.log("Error is Login controller", error.message);
       return res.status(500).json({message : "Internal server error"})
       
     }
-  }
+  };
   
+//Logout
 export const logout = (req, res) => {
-    res.send("logout route");
-  }
+    try {
+      res.cookie("jwt" , "" , {maxAge : 0})
+      res.status(200).json({message : "Logged Out Sucessfully"})
+    } catch (error) {
+      console.log("Error is Logout controller", error.message);
+      return res.status(500).json({message : "Internal server error"})
+    }
+  };
+
+//Update Profile
+export const updateProfile = async (req , res) => {
+  
+}
