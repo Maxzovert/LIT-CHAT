@@ -5,6 +5,9 @@ import {create} from "zustand";
 //We can use set to update the state which is a inbuilt function
 export const useAuthStore = create((set) => ({
     authUser : null,
+    isSigningUp : false,
+    isLoggingIng : false,
+    isUpdatingProfile : false,
     //initially its null bcoz we'll check it later
     isCheckingAuth : true,
 }));

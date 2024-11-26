@@ -1,6 +1,7 @@
 import React from 'react';
 import Navbar from './Components/Navbar';
 import {Routes , Route} from "react-router-dom";
+import {useAuthStore} from "./store/useAuthStore.js"
 import Home from './Pages/Home';
 import Signup from './Pages/Signup';
 import Login from './Pages/Login';
@@ -8,6 +9,7 @@ import Settings from './Pages/Settings';
 import Profilepage from './Pages/Profilepage';
 
 const App = () => {
+const {authUser} = useAuthStore();
   return (
     <div>
       <Navbar/>
