@@ -1,6 +1,7 @@
 //Using zustand for global state management
 import {create} from "zustand";
 import {axiosInstance} from "../Lib/axios.js"
+import Signup from "../Pages/Signup.jsx";
 //passed object is out initial state 
 //We can use set to update the state which is a inbuilt function
 export const useAuthStore = create((set) => ({
@@ -23,5 +24,7 @@ export const useAuthStore = create((set) => ({
         } finally {
             set({ isCheckingAuth : false});
         }
-    }
+    },
+    
+    
 }));
