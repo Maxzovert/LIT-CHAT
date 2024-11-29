@@ -2,6 +2,8 @@
 import {create} from "zustand";
 import {axiosInstance} from "../Lib/axios.js"
 import Signup from "../Pages/Signup.jsx";
+import { data } from "react-router-dom";
+import toast from "react-hot-toast";
 //passed object is out initial state 
 //We can use set to update the state which is a inbuilt function
 export const useAuthStore = create((set) => ({
@@ -11,7 +13,7 @@ export const useAuthStore = create((set) => ({
     isUpdatingProfile : false,
     //initially its null bcoz we'll check it later
     isCheckingAuth : true,
-
+//TO check authentication
     checkAuth : async () => {
         try {
             const res = await axiosInstance.get("/auth/check");
@@ -25,6 +27,20 @@ export const useAuthStore = create((set) => ({
             set({ isCheckingAuth : false});
         }
     },
+// TO authenticate user with form data
+    signup: async (data) => {
+        set({isSigningUp : true});
+        try {
+          const res =  await axiosInstance.post("/auth/signup", data);
+          //Setting authUser to form data so that user get authnticated as they signup
+          set({authUser : res.data});
+          toast.success("Account created Successfully");
+        } catch (error) {
+            toast.error(error.response.data.message)
+        } finally {
+            set({isSigningUp : false})
+        }
+    }
     
     
 }));
