@@ -12,12 +12,14 @@ export const protectRoute = async (req , res , next) => {
         const decoded = jwt.verify(token, process.env.JWT_SECRET)
 
         if(!decoded){
+            console.log("invalid token")
             return res.status(401).json({message : "Tokon is invalid"})
         }
         //Not sending the pasword back to the client for security
         const user = await User.findById(decoded.userId).select("-password");
 
         if(!user){
+            console.log("USer not found")
             return res.status(404).json({ message : "User not found"})
         }
         //After user get authenticated it added to data base

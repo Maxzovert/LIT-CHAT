@@ -2,7 +2,6 @@
 import {create} from "zustand";
 import {axiosInstance} from "../Lib/axios.js"
 import Signup from "../Pages/Signup.jsx";
-import { data } from "react-router-dom";
 import toast from "react-hot-toast";
 //passed object is out initial state 
 //We can use set to update the state which is a inbuilt function
@@ -54,6 +53,23 @@ export const useAuthStore = create((set) => ({
             set({isLoggingIng : false});
         }
     },
+
+//Profile picture update funtion
+    updateProfile : async (data) => {
+    set({isUpdatingProfile : true});
+    try {
+        const res = await axiosInstance.put("/auth/update-profile", data ,{
+            withCredentials : true,
+        });
+        set({authUser : res.data});
+        toast.success("Profile Update Successfully")
+    } catch (error) {
+        console.log("Error in  update profile", error);
+        toast.error(error.response.data.message);
+    } finally{
+        set({isUpdatingProfile : false})
+    }
+    },
 //Logout function
     logout : async () => {
     try {
@@ -63,5 +79,6 @@ export const useAuthStore = create((set) => ({
     } catch (error) {
         toast.error(error.response.data.message)
     }
-}
+    },
+
 }));
