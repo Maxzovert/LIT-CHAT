@@ -20,7 +20,7 @@ const Navbar = () => {
           {/* RIght section */}
           <div className="flex items-center gap-2">
             <Link
-              to={"/setting"}
+              to={"/settings"}
               className={`btn btn-sm gap-2 transition-colors`}
               >
                 <Settings className="size-4"/>
