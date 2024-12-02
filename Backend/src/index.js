@@ -16,7 +16,7 @@ app.use(cors({
     credentials : true,
 }))
 app.use("/api/auth" , authRoutes)
-app.use("/api/message" , messageRoutes)
+app.use("/api/messages" , messageRoutes)
 //TO fetch the destructured arguments their value use this middlewaew(form usermodal to authcontroller)
 app.listen(PORT , () => {
     console.log("Server is running on PORT : " + PORT);
