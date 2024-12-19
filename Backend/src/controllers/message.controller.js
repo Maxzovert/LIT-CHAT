@@ -1,5 +1,6 @@
-import User from "../models/user.model";
-import Message from "../models/message.model.js"
+import User from "../models/user.model.js";
+import Message from "../models/message.model.js";
+import cloudinary from "../lib/cloudinary.js";
 
 //Get user for sidebar
 export const getUserForSidebar = async (req , res) => {
@@ -7,7 +8,7 @@ try {
     //grabbign logged in user id  form database
     const loggedInUserId = req.user._id;
     //filtering all users except the logged in user without the password
-    const filteredUsers = await  User.find({_id : {$ne : logged}}).select("-password")
+    const filteredUsers = await  User.find({_id : {$ne : loggedInUserId}}).select("-password")
 
     res.status(200).json(filteredUsers)
 } catch (error) {
