@@ -12,6 +12,9 @@
     }
  })
 
+ export function getReciverSocketId(userId)  {
+    return userSocketMap[userId]
+ }
   const userSocketMap = {};
  //listening in comming connections
  io.on("connection" , (socket) => {
