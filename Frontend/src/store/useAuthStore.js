@@ -93,8 +93,19 @@ export const useAuthStore = create((set, get) => ({
         const {authUser} = get()
         // DO not make this connection if user is not authenticated or already authenticated
         if(!authUser || get().socket?.connected) return;
-        const socket = io(BASE_URL)
-        socket.connect()
+        const socket = io(BASE_URL,{
+            query : {
+                userId : authUser._id,  
+            }
+        }
+        )
+        socket.connect();
+
+        set({socket : socket});
+
+        socket.on("getOnlineUsers", (userIds) => {
+            set({onlineUsers : userIds})
+        })
     },
     disconnectSocket: () => {
         if(get().socket?.connected) get().socket.disconnect();
